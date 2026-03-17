@@ -17,6 +17,7 @@ RUN --mount=type=cache,target=/var/lib/apt/lists apt install -y \
 	postgresql \
 	postgresql-server-dev-all \
 	zip \
+	python3 \
 	unzip && \
 	rm -rf /tmp/* /var/tmp/*
 
@@ -29,10 +30,10 @@ RUN --mount=type=cache,target=/var/lib/apt/lists apt-add-repository -y ppa:rael-
 FROM base AS common
 
 # clone cafe-grader-web
-RUN git clone https://github.com/nattee/cafe-grader-web.git /cafe-grader/web
+# RUN git clone https://github.com/nattee/cafe-grader-web.git /cafe-grader/web
 
 # fallback if the latest version of cafe-grader-web is not compatible
-# COPY cafe-grader-web /cafe-grader/web
+COPY cafe-grader-web /cafe-grader/web
 
 # install Ruby version from .ruby-version file and install gems
 RUN RUBY_VERSION=$(cat /cafe-grader/web/.ruby-version | tr -d '[:space:]') && \
